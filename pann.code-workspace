@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../../../Sat"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "pann"
+	}
+}

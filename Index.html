@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ember and Oak Restaurant</title>
+    <script defer src="Ember&Oaks.js"></script>
+    <script type="module" src="Ember&Oaks.jsx"></script>
+    <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      background-color: #faf7f2;
+      color: #2c1a0e;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background-color: rgba(26, 15, 8, 0.95);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 60px;
+      height: 70px;
+      border-bottom: 1px solid rgba(201, 145, 61, 0.2);
+    }
+
+    .nav-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #e8b96a;
+      font-style: italic;
+      letter-spacing: 2px;
+    }
+
+    .nav-logo span {
+      color: white;
+      font-style: italic;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: white;
+      font-size: 0.82rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+    .nav-reserve {
+      background-color: #c9913d;
+      color: white;
+      padding: 9px 22px;
+      border-radius: 2px;
+      font-weight: 600;
+      border-radius: 10px;
+    }
+
+    .nav-reserve:hover {
+      background-color: #e8b96a;
+      color: black;
+    }
+
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      background-image: url(./photo-1414235077428-338989a2e8c0.jpeg);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(20,10,4,0.55), rgba(20,10,4,0.45) 50%, rgba(20,10,4,0.75));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      padding: 0 24px;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-family: Trebuchet MS, sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: #e8b96a;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(232, 185, 106, 0.4);
+      padding-bottom: 8px;
+    }
+
+    .hero-content h1 {
+      font-size: 5rem;
+      font-weight: 400;
+      color: white;
+      line-height: 1.0;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+
+    .hero-content h1 em {
+      font-style: italic;
+      color: #e8b96a;
+    }
+
+    .hero-content p {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.8;
+      margin: 20px auto 36px;
+      max-width: 480px;
+      font-family: Trebuchet MS, sans-serif;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background-color: #c9913d;
+      color: white;
+      padding: 14px 34px;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 2px;
+    }
+
+    .btn-primary:hover {
+      background-color: #e8b96a;
+      color: #1a0f08;
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      color: white;
+      padding: 14px 34px;
+      font-family: Trebuchet MS, sans-serif;
+      font-size: 0.82rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 2px;
+    }
+
+    .btn-outline:hover {
+      border-color: #e8b96a;
+      color: #e8b96a;
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 560px;
+    }
+
+    .about-img-wrap {
+      overflow: hidden;
+    }
+
+    .about-img-wrap img {
+      height: 100%;
+      min-height: 500px;
+      object-fit: cover;
+    }
+
+    .about-text {
+      background-color: #1a0f08;
+      color: white;
+      padding: 80px 70px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .section-label {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #c9913d;
+      margin-bottom: 16px;
+    }
+
+    .about-text h2 {
+      font-size: 2.8rem;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      color: white;
+    }
+
+    .about-text h2 em {
+      font-style: italic;
+      color: #e8b96a;
+    }
+
+    .about-text p {
+      font-family: Trebuchet MS, sans-serif;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.9;
+      margin-bottom: 16px;
+    }
+
+    .about-stats {
+      display: flex;
+      gap: 36px;
+      margin-top: 36px;
+      padding-top: 36px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .stat-item h3 {
+      font-size: 2rem;
+      color: #e8b96a;
+      font-weight: 400;
+    }
+
+    .stat-item p {
+      font-family: Trebuchet MS, sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      margin: 0;
+    }
+
+    .menu-section {
+      background-color: white;
+      padding: 100px 60px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-header h2 {
+      font-size: 3rem;
+      font-weight: 400;
+      color: #3b2314;
+      line-height: 1.2;
+    }
+
+    .section-header h2 em {
+      font-style: italic;
+      color: #c9913d;
+    }
+
+    .section-header p {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      font-size: 0.95rem;
+      color: #7a6655;
+      margin-top: 14px;
+      line-height: 1.7;
+    }
+
+    .divider-line {
+      width: 60px;
+      height: 1px;
+      background-color: #c9913d;
+      margin: 16px auto 0;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .menu-card {
+      background-color: #ebebeb;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 20px rgba(59, 35, 20, 0.08);
+    }
+
+    .menu-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 36px rgba(59, 35, 20, 0.15);
+    }
+
+    .menu-card-img {
+      height: 220px;
+      overflow: hidden;
+    }
+
+    .menu-card-img img {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .menu-card-body {
+      padding: 22px 24px 26px;
+    }
+
+    .menu-tag {
+      font-family: Trebuchet MS, sans-serif;
+      font-size: 0.66rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #c9913d;
+      margin-bottom: 8px;
+    }
+
+    .menu-card-body h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #3b2314;
+      margin-bottom: 8px;
+    }
+
+    .menu-card-body p {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      font-size: 0.85rem;
+      color: #7a6655;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .menu-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #c9913d;
+    }
+
+    .order-btn {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #3b2314;
+      border-bottom: 1px solid black;
+      padding-bottom: 2px;
+    }
+
+    .order-btn:hover {
+      background-color: #c9913d;
+      color: black;
+    }
+
+    .experience {
+      position: relative;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .experience-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('./photo-1559339352-11d035aa65de.jpeg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .experience-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(15, 7, 2, 0.72);
+    }
+
+    .experience-content {
+      position: relative;
+      z-index: 2;
+      max-width: 640px;
+      padding: 0 24px;
+    }
+
+    .experience-content h2 {
+      font-size: 3.2rem;
+      color: white;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .experience-content h2 em {
+      color: #e8b96a;
+      font-style: italic;
+    }
+
+    .experience-content p {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 36px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 260px 260px;
+    }
+
+    .gallery-item {
+      overflow: hidden;
+    }
+
+    .gallery-item img {
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gallery-item:nth-child(1) {
+      grid-column: span 2;
+    }
+
+    .gallery-item:nth-child(5) {
+      grid-column: span 2;
+    }
+
+    .reservation {
+      background-color: #f5efe6;
+      padding: 100px 60px;
+    }
+
+    .reservation-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .reservation-text h2 {
+      font-size: 2.8rem;
+      font-weight: 400;
+      color: #3b2314;
+      line-height: 1.2;
+      margin-bottom: 18px;
+    }
+
+    .reservation-text h2 em {
+      font-style: italic;
+      color: #c9913d;
+    }
+
+    .reservation-text p {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      font-size: 0.92rem;
+      color: #7a6655;
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .contact-info {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contact-info div {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      font-size: 0.85rem;
+      color: #3b2314;
+      display: flex;
+      gap: 10px;
+    }
+
+    .contact-info strong {
+      color: #c9913d;
+      min-width: 60px;
+    }
+
+    .reservation-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .reservation-form input,
+    .reservation-form select,
+    .reservation-form textarea {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1px solid #e5d9ca;
+      background-color: #ffffff;
+      font-family: Trebuchet MS, sans-serif;
+      font-size: 0.88rem;
+      color: #2c1a0e;
+      border-radius: 2px;
+      outline: none;
+    }
+
+    .reservation-form input:focus,
+    .reservation-form select:focus,
+    .reservation-form textarea:focus {
+      border-color: #c9913d;
+    }
+
+    .reservation-form textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background-color: black;
+      color: white;
+      border: none;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+
+    .submit-btn:hover {
+      background-color: #c9913d;
+    }
+
+    footer {
+      background-color: #1a0f08;
+      color: rgba(255, 255, 255, 0.5);
+      padding: 60px 60px 30px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+
+    .footer-brand h3 {
+      font-size: 1.5rem;
+      font-style: italic;
+      color: #e8b96a;
+      margin-bottom: 14px;
+    }
+
+    .footer-brand p {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+
+    .footer-col h4 {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #c9913d;
+      margin-bottom: 18px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col ul li a {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .footer-col ul li a:hover {
+      color: #e8b96a;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: Trebuchet MS, sans-serif;
+      font-size: 0.78rem;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 0 20px;
+        height: 60px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-logo {
+        font-size: 1.2rem;
+      }
+
+      .hero {
+        min-height: 500px;
+      }
+
+      .hero-content h1 {
+        font-size: 2.6rem;
+      }
+
+      .hero-content p {
+        font-size: 0.92rem;
+      }
+
+      .hero-btns {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .btn-primary,
+      .btn-outline {
+        width: 240px;
+        text-align: center;
+      }
+
+      .about {
+        grid-template-columns: 1fr;
+      }
+
+      .about-img-wrap img {
+        min-height: 300px;
+      }
+
+      .about-text {
+        padding: 48px 24px;
+      }
+
+      .about-text h2 {
+        font-size: 2rem;
+      }
+
+      .about-stats {
+        gap: 24px;
+      }
+
+      .menu-section {
+        padding: 60px 20px;
+      }
+
+      .section-header h2 {
+        font-size: 2rem;
+      }
+
+      .menu-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .experience {
+        height: auto;
+        padding: 80px 24px;
+      }
+
+      .experience-content h2 {
+        font-size: 2.1rem;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(4, 180px);
+      }
+
+      .gallery-item:nth-child(1),
+      .gallery-item:nth-child(5) {
+        grid-column: span 1;
+      }
+
+      .reservation {
+        padding: 60px 20px;
+      }
+
+      .reservation-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .reservation-text h2 {
+        font-size: 2rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        padding: 40px 20px 24px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo"><em>Ember</em> <span>&amp; Oak</span></div>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#reserve" class="nav-reserve">Reserve a Table</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-img"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-eyebrow">Est. 2008 · Fine Dining Experience</span>
+      <h1>Where Every <em>Meal</em><br>Tells a Story</h1>
+      <p>Crafted with passion, served with elegance. Discover seasonal menus inspired by the finest local ingredients.</p>
+      <div class="hero-btns">
+        <a href="#reserve" class="btn-primary">Reserve a Table</a>
+        <a href="#menu" class="btn-outline">View Our Menu</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="about-img-wrap">
+      <img src="./african-american-female-chef-having-600nw-2150289105.jpg" alt="Chef at work">
+    </div>
+    <div class="about-text">
+      <div class="section-label">Our Story</div>
+      <h2>Passion on<br>Every <em>Plate</em></h2>
+      <p>Founded in the heart of the city, Ember and Oak was born from a single belief that great food is the language of connection. Our chefs source only the finest seasonal ingredients from local farms and artisan producers.</p>
+      <p>Each dish is a carefully composed experience, balancing bold flavours with delicate technique. From the first bite to the last, every visit is designed to be unforgettable.</p>
+      <div class="about-stats">
+        <div class="stat-item">
+          <h3>16+</h3>
+          <p>Years of Service</p>
+        </div>
+        <div class="stat-item">
+          <h3>42</h3>
+          <p>Signature Dishes</p>
+        </div>
+        <div class="stat-item">
+          <h3>3 Star</h3>
+          <p>Michelin Stars</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="menu-section" id="menu">
+    <div class="section-header">
+      <div class="section-label">Culinary Selections</div>
+      <h2>Our Signature <em>Menu</em></h2>
+      <p>Seasonal dishes crafted fresh daily by our award-winning culinary team.</p>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="./images (3).jpeg" alt="Fresh Salad">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-tag">Starter</div>
+          <h3>Heirloom Tomato Salad</h3>
+          <p>Vine-ripened heirloom tomatoes, buffalo mozzarella, fresh basil oil, and aged balsamic reduction.</p>
+          <div class="menu-card-footer">
+            <span class="price">$18</span>
+            <a href="#reserve" class="order-btn">Order Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="./1382539247827.webp" alt="Grilled Steak">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-tag">Main Course</div>
+          <h3>Oak-Grilled Ribeye</h3>
+          <p>28-day dry-aged prime ribeye, truffle butter, roasted bone marrow, and seasonal greens.</p>
+          <div class="menu-card-footer">
+            <span class="price">$68</span>
+            <a href="#reserve" class="order-btn">Order Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="./images (4).jpeg" alt="Pizza">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-tag">Main Course</div>
+          <h3>Wood-Fired Margherita</h3>
+          <p>San Marzano tomatoes, fresh fior di latte, wild basil, and extra virgin olive oil on a 72-hour dough.</p>
+          <div class="menu-card-footer">
+            <span class="price">$28</span>
+            <a href="#reserve" class="order-btn">Order Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="./images (5).jpeg" alt="Pancakes">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-tag">Brunch</div>
+          <h3>Ricotta Pancakes</h3>
+          <p>Fluffy ricotta pancakes layered with fresh berries, whipped cream, and warm maple syrup.</p>
+          <div class="menu-card-footer">
+            <span class="price">$22</span>
+            <a href="#reserve" class="order-btn">Order Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="./images (6).jpeg" alt="Burger">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-tag">Casual</div>
+          <h3>Ember Smash Burger</h3>
+          <p>Double smash patty, aged cheddar, house pickles, ember aioli, and a toasted brioche bun.</p>
+          <div class="menu-card-footer">
+            <span class="price">$24</span>
+            <a href="#reserve" class="order-btn">Order Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="./images (7).jpeg" alt="Dessert">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-tag">Dessert</div>
+          <h3>Valrhona Chocolate Fondant</h3>
+          <p>Warm dark chocolate fondant, salted caramel core, vanilla bean ice cream, and gold dust.</p>
+          <div class="menu-card-footer">
+            <span class="price">$16</span>
+            <a href="#reserve" class="order-btn">Order Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="experience">
+    <div class="experience-bg"></div>
+    <div class="experience-overlay"></div>
+    <div class="experience-content">
+      <div class="section-label" style="color: #e8b96a;">The Ember and Oak Experience</div>
+      <h2>More Than a Meal,<br>It is a <em>Memory</em></h2>
+      <p>From intimate dinners to grand celebrations, our space transforms every occasion into something truly extraordinary. Let us take care of everything.</p>
+      <a href="#reserve" class="btn-primary">Plan Your Evening</a>
+    </div>
+  </section>
+
+  <section class="gallery" id="gallery">
+    <div class="gallery-item">
+      <img src="./InteriorDesign_March2024_Brave-New-World-11-1024x768.jpg" alt="Restaurant interior">
+    </div>
+    <div class="gallery-item">
+      <img src="./chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg" alt="Food dish">
+    </div>
+    <div class="gallery-item">
+      <img src="./images (8).jpeg" alt="Food close-up">
+    </div>
+    <div class="gallery-item">
+      <img src="./MS_sunsetroom.jpg" alt="Fine dining">
+    </div>
+    <div class="gallery-item">
+      <img src="./retro-cocktails-b12b00d.jpg" alt="Cocktails">
+    </div>
+    <div class="gallery-item">
+      <img src="./chef-cooking-flambe-stockcake.jpg" alt="Chef cooking">
+    </div>
+    <div class="gallery-item">
+      <img src="./food-plating-ideas-scaled.jpeg" alt="Plating">
+    </div>
+    <div class="gallery-item">
+      <img src="./images (9).jpeg" alt="Breakfast">
+    </div>
+  </section>
+
+  <section class="reservation" id="reserve">
+    <div class="reservation-inner">
+      <div class="reservation-text">
+        <div class="section-label">Book a Table</div>
+        <h2>Reserve Your<br><em>Evening</em></h2>
+        <p>Join us for an unforgettable dining experience. We accommodate private dining, special occasions, and corporate events.</p>
+        <p>For parties of 8 or more, please call us directly.</p>
+        <div class="contact-info">
+          <div><strong>Phone:</strong> +234 706 774 4429</div>
+          <div><strong>Email:</strong> hello@emberandoak.com</div>
+          <div><strong>Hours:</strong> Mon to Sun, 9am to 10pm</div>
+          <div><strong>Address:</strong> 14, Orchid road, Lagos.</div>
+        </div>
+      </div>
+      <form class="reservation-form">
+        <div class="form-row">
+          <input type="text" placeholder="First Name">
+          <input type="text" placeholder="Last Name">
+        </div>
+        <input type="email" placeholder="Email Address">
+        <input type="tel" placeholder="Phone Number">
+        <div class="form-row">
+          <input type="date">
+          <input type="time">
+        </div>
+        <select>
+          <option value="" disabled selected>Number of Guests</option>
+          <option>1 Guest</option>
+          <option>2 Guests</option>
+          <option>3 Guests</option>
+          <option>4 Guests</option>
+          <option>5 to 7 Guests</option>
+          <option>8 or more Guests</option>
+        </select>
+        <textarea placeholder="Special requests or dietary requirements..."></textarea>
+        <button type="submit" class="submit-btn">Confirm Reservation</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>Ember and Oak</h3>
+        <p>A celebration of food, fire, and the joy of gathering. Award-winning fine dining in the heart of the city since 2008.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#reserve">Reservations</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Opening Hours</h4>
+        <ul>
+          <li><a href="#">Mon to Fri: 12pm to 11pm</a></li>
+          <li><a href="#">Saturday: 11am to 11pm</a></li>
+          <li><a href="#">Sunday: 11am to 10pm</a></li>
+          <li><a href="#">Private Events: 24 hours</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">TripAdvisor</a></li>
+          <li><a href="#">OpenTable</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>2025 Ember and Oak. All rights reserved.</span>
+      <span>14, Orchid road, Lagos. · +234 706 774 4429</span>
+    </div>
+  </footer>
+
+</body>
+</html>
